@@ -1,4 +1,4 @@
-package kryklyvets.project.restaurant.entity;
+package kryklyvets.project.restaurant.entities;
 
 import lombok.Data;
 
