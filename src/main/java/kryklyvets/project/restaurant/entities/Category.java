@@ -1,16 +1,23 @@
 package kryklyvets.project.restaurant.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
 @Data
 @Entity(name = "categories")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Category {
     @Id
-    private long id;
+    private Long id;
 
     private String category;
     @ManyToMany
@@ -21,7 +28,7 @@ public class Category {
 
     private Boolean isDelete;
 
-    private Date dateCreated;
+    private LocalDateTime dateCreated;
 
-    private Date dateModified;
+    private LocalDateTime dateModified;
 }

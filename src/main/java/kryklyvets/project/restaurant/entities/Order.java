@@ -1,17 +1,24 @@
 package kryklyvets.project.restaurant.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
 @Data
 @Entity(name = "orders")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
     @Id
-    private long id;
+    private Long id;
 
     private int number;
     @ManyToOne
@@ -27,7 +34,7 @@ public class Order {
 
     private Boolean isDelete;
 
-    private Date dateCreated;
+    private LocalDateTime dateCreated;
 
-    private Date dateModified;
+    private LocalDateTime dateModified;
 }

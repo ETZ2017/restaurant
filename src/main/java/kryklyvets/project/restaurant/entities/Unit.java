@@ -1,18 +1,26 @@
 package kryklyvets.project.restaurant.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
 @Data
 @Entity(name = "units")
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Unit {
     @Id
-    private long id;
+    private Long id;
 
     private String unit;
     @OneToMany(mappedBy = "unit")
@@ -20,7 +28,7 @@ public class Unit {
 
     private Boolean isDelete;
 
-    private Date dateCreated;
+    private LocalDateTime dateCreated;
 
-    private Date dateModified;
+    private LocalDateTime dateModified;
 }
