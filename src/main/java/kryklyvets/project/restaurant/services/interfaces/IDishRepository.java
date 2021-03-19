@@ -14,6 +14,6 @@ import java.util.Optional;
 public interface IDishRepository extends JpaRepository<Dish, Long> {
     Optional<Dish> findDishesByCategory_id(Long id);
 
-    @Query(value = "SELECT d.id, d.dish FROM Dish as d where d.dish = :dish ", nativeQuery = true)
+    @Query(value = "SELECT d.id, d.dish FROM dishes as d where d.dish = :dish ", nativeQuery = true)
     List<Dish> findByName(String dish);
 }
