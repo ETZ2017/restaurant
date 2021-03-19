@@ -1,4 +1,4 @@
-package kryklyvets.project.restaurant.repositories.interfaces;
+package kryklyvets.project.restaurant.services.interfaces;
 
 import kryklyvets.project.restaurant.entities.Client;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import kryklyvets.project.restaurant.dtos.CategoryRequest;
 import kryklyvets.project.restaurant.entities.Category;
 import kryklyvets.project.restaurant.controllers.interfaces.ICategory;
-import kryklyvets.project.restaurant.repositories.CategoryService;
+import kryklyvets.project.restaurant.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

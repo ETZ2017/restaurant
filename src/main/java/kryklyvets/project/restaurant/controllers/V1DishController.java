@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import kryklyvets.project.restaurant.dtos.DishRequest;
 import kryklyvets.project.restaurant.entities.Dish;
 import kryklyvets.project.restaurant.controllers.interfaces.IDish;
-import kryklyvets.project.restaurant.repositories.DishService;
+import kryklyvets.project.restaurant.services.DishService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -6,7 +6,7 @@ import io.swagger.annotations.ApiResponse;
 import kryklyvets.project.restaurant.dtos.UnitRequest;
 import kryklyvets.project.restaurant.entities.Unit;
 import kryklyvets.project.restaurant.controllers.interfaces.IUnit;
-import kryklyvets.project.restaurant.repositories.UnitService;
+import kryklyvets.project.restaurant.services.UnitService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,7 +22,7 @@ public class V1UnitController implements IUnit {
     @GetMapping
     @ApiResponse(code=200, message = "Successful get all")
     public List<Unit> getAll(@RequestParam(required = false, defaultValue = "10") Integer size,
-                   @RequestParam(required = false, defaultValue = "1") Integer page){
+                             @RequestParam(required = false, defaultValue = "1") Integer page){
         return service.getAll();
     }
 

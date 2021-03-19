@@ -1,13 +1,11 @@
-package kryklyvets.project.restaurant.repositories;
+package kryklyvets.project.restaurant.services;
 
 import kryklyvets.project.restaurant.dtos.ClientRequest;
 import kryklyvets.project.restaurant.entities.Client;
 import kryklyvets.project.restaurant.exceptions.ClientNotFoundException;
-import kryklyvets.project.restaurant.exceptions.DishNotFoundException;
-import kryklyvets.project.restaurant.repositories.interfaces.IClientRepository;
+import kryklyvets.project.restaurant.services.interfaces.IClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
