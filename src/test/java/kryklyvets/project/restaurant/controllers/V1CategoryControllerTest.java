@@ -22,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -86,18 +87,9 @@ public class V1CategoryControllerTest {
         Category category = CategoryStub.getRandomCategory();
         CategoryRequest categoryRequest = CategoryStub.getCategoryRequest();
 
-        /*when(categoryService.create(categoryRequest)).thenReturn(category);
-
-        mvc.perform(post("/v1/categories/create")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(content().string(containsString(category.getCategory())));*/
-
         when(categoryService.getById(CategoryStub.ID)).thenReturn(CategoryStub.getRandomCategory());
         when(categoryService.create(categoryRequest)).thenReturn(category);
-        mvc.perform(post("/v1/categories/create", categoryRequest))
+        mvc.perform(postRequest("/v1/categories/create", categoryRequest))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(containsString(category.getCategory())));
 
@@ -116,9 +108,10 @@ public class V1CategoryControllerTest {
                 .andExpect(jsonPath("$").isNotEmpty())
                 .andExpect(content().string(containsString(category.getCategory())));*/
 
-//        when(categoryService.getById(CategoryStub.ID)).thenReturn(category);
-        when(categoryService.update(CategoryStub.ID, update)).thenReturn(update);
-        mvc.perform(put("/v1/categories/1", CategoryStub.ID, update))
+        when(categoryService.getById(CategoryStub.ID)).thenReturn(category);
+        category.setCategory(update.getCategory());
+        when(categoryService.update(CategoryStub.ID, update)).thenReturn(category);
+        mvc.perform(putRequest("/v1/categories/1", update))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.content().string(containsString(update.getCategory())));
 
@@ -131,7 +124,19 @@ public class V1CategoryControllerTest {
 
     }
 
+    private MockHttpServletRequestBuilder postRequest(String url, CategoryRequest request) {
+        return post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(request));
+    }
 
+    private MockHttpServletRequestBuilder putRequest(String url, Category request) {
+        return put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(request));
+    }
 
 
 
