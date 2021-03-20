@@ -8,6 +8,7 @@ import kryklyvets.project.restaurant.stubs.CategoryStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -27,6 +28,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -34,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -50,7 +53,7 @@ public class V1CategoryControllerTest {
 
     @Test
     void testGetAll() throws Exception {
-        Category category = Category.builder().category("name").id(1L).build();
+        Category category = CategoryStub.getRandomCategory();
         ArrayList<Category> list = new ArrayList<Category>();
         Boolean add = list.add(category);
         when(categoryService.getAll()).thenReturn(list);
@@ -66,7 +69,7 @@ public class V1CategoryControllerTest {
 
     @Test
     void testGetById() throws Exception {
-        var category = Category.builder().category("name").id(1L).build();
+        Category category = CategoryStub.getRandomCategory();
         when(categoryService.getById(1L)).thenReturn(category);
 
         mvc.perform(get("/v1/categories/1")
@@ -80,31 +83,44 @@ public class V1CategoryControllerTest {
 
     @Test
     public void createCategory() throws Exception {
-        Category category = Category.builder().category("name").id(1L).build();
-        CategoryRequest categoryRequest = CategoryRequest.builder().category("name").build();
+        Category category = CategoryStub.getRandomCategory();
+        CategoryRequest categoryRequest = CategoryStub.getCategoryRequest();
 
-        when(categoryService.create(categoryRequest)).thenReturn(category);
+        /*when(categoryService.create(categoryRequest)).thenReturn(category);
 
         mvc.perform(post("/v1/categories/create")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(content().string(containsString(category.getCategory())));
+                .andExpect(content().string(containsString(category.getCategory())));*/
+
+        when(categoryService.getById(CategoryStub.ID)).thenReturn(CategoryStub.getRandomCategory());
+        when(categoryService.create(categoryRequest)).thenReturn(category);
+        mvc.perform(post("/v1/categories/create", categoryRequest))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(containsString(category.getCategory())));
 
     }
 
     @Test
     public void updateCategory() throws Exception {
-        Category category = Category.builder().category("name 2").id(1L).build();
+        Category category = CategoryStub.getRandomCategory();
+        Category update = CategoryStub.updateRandomCategory();
 
         when(categoryService.update(1L, category)).thenReturn(category);
 
-        mvc.perform(put("/v1/categories/1")
+        /*mvc.perform(put("/v1/categories/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(content().string(containsString(category.getCategory())));
+                .andExpect(content().string(containsString(category.getCategory())));*/
+
+//        when(categoryService.getById(CategoryStub.ID)).thenReturn(category);
+        when(categoryService.update(CategoryStub.ID, update)).thenReturn(update);
+        mvc.perform(put("/v1/categories/1", CategoryStub.ID, update))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(containsString(update.getCategory())));
 
     }
 
@@ -140,7 +156,7 @@ public class V1CategoryControllerTest {
     void testSuccessfulGetById() {
         Category category = CategoryStub.getRandomCategory();
 
-        when(categoryService.getById(Mockito.any())).thenReturn(category);
+        when(categoryService.getById(any())).thenReturn(category);
         Category result = controller.getById(CategoryStub.ID);
 
         assertAll(
@@ -157,7 +173,7 @@ public class V1CategoryControllerTest {
     void testSuccessfulCreate() {
         Category category = CategoryStub.getRandomCategory();
 
-        when(categoryService.create(Mockito.any())).thenReturn(CategoryStub.getRandomCategory());
+        when(categoryService.create(any())).thenReturn(CategoryStub.getRandomCategory());
 
         Category result = controller.create(CategoryStub.getCategoryRequest());
 

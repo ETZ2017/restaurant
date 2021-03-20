@@ -32,7 +32,7 @@ public class V1OrderController implements IOrder {
         return service.getById(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Order create(@RequestBody OrderRequest order){
         return service.create(order);
     }

@@ -32,7 +32,7 @@ public class V1UnitController implements IUnit {
         return service.getById(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Unit create(@RequestBody UnitRequest unit){
         return service.create(unit);
     }

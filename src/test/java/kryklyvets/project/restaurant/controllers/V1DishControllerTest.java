@@ -1,9 +1,11 @@
 package kryklyvets.project.restaurant.controllers;
 
+import kryklyvets.project.restaurant.entities.Category;
 import kryklyvets.project.restaurant.entities.Client;
 import kryklyvets.project.restaurant.entities.Dish;
 import kryklyvets.project.restaurant.services.ClientService;
 import kryklyvets.project.restaurant.services.DishService;
+import kryklyvets.project.restaurant.stubs.CategoryStub;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
@@ -66,5 +71,24 @@ public class V1DishControllerTest {
         mvc.perform(delete("/v1/dishes/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    void testGetDishByCatId() throws Exception {
+        HashSet<Category> set = new HashSet();
+        set.add(CategoryStub.getRandomCategory());
+
+        Dish dish = Dish.builder().dish("name").category(set).ingredients("ingredients").id(1L).build();
+        ArrayList<Dish> list = new ArrayList<Dish>();
+        Boolean add = list.add(dish);
+        when(dishService.getDishesByCategory(CategoryStub.ID)).thenReturn(Optional.of(dish));
+
+        mvc.perform(get("/v1/dishes/1/dishes")
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$").isNotEmpty())
+                .andExpect(content().string(containsString(dish.getIngredients())));
     }
 }

@@ -32,7 +32,7 @@ public class V1ClientController implements IClient {
         return service.getById(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Client create(@RequestBody ClientRequest client){
         return service.create(client);
     }

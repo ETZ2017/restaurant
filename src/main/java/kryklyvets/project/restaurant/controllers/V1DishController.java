@@ -33,7 +33,7 @@ public class V1DishController implements IDish {
         return service.getById(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Dish create(@RequestBody DishRequest dish){
         return service.create(dish);
     }
