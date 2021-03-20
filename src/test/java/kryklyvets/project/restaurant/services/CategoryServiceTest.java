@@ -1,5 +1,6 @@
 package kryklyvets.project.restaurant.services;
 
+import kryklyvets.project.restaurant.dtos.CategoryRequest;
 import kryklyvets.project.restaurant.entities.Category;
 import kryklyvets.project.restaurant.exceptions.CategoryNotFoundException;
 import kryklyvets.project.restaurant.services.interfaces.ICategoryRepository;
@@ -82,7 +83,7 @@ class CategoryServiceTest {
 
     @Test
     void testSuccessfulUpdate() {
-        Category category = CategoryStub.updateRandomCategory();
+        CategoryRequest category = CategoryStub.updateRandomCategory();
 
         Mockito.when(categoryRepository.save(Mockito.any())).thenReturn(CategoryStub.updateRandomCategory());
 

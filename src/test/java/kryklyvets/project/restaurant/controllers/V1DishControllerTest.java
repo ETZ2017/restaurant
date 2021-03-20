@@ -1,11 +1,17 @@
 package kryklyvets.project.restaurant.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import kryklyvets.project.restaurant.dtos.ClientRequest;
+import kryklyvets.project.restaurant.dtos.DishRequest;
 import kryklyvets.project.restaurant.entities.Category;
 import kryklyvets.project.restaurant.entities.Client;
 import kryklyvets.project.restaurant.entities.Dish;
 import kryklyvets.project.restaurant.services.ClientService;
 import kryklyvets.project.restaurant.services.DishService;
 import kryklyvets.project.restaurant.stubs.CategoryStub;
+import kryklyvets.project.restaurant.stubs.ClientStub;
+import kryklyvets.project.restaurant.stubs.DishStub;
+import kryklyvets.project.restaurant.stubs.OrderStub;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,6 +19,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,8 +30,8 @@ import java.util.Set;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -90,5 +98,60 @@ public class V1DishControllerTest {
                 .andDo(print())
                 .andExpect(jsonPath("$").isNotEmpty())
                 .andExpect(content().string(containsString(dish.getIngredients())));
+    }
+
+    @Test
+    public void createDish() throws Exception {
+        Dish dish = DishStub.getRandomDish();
+        DishRequest dishRequest = DishStub.getDishRequest();
+
+        when(dishService.getById(OrderStub.ID)).thenReturn(DishStub.getRandomDish());
+        when(dishService.create(dishRequest)).thenReturn(dish);
+        mvc.perform(postRequest("/v1/dishes/create", dishRequest))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(containsString(dish.getDish())));
+
+    }
+
+    @Test
+    public void updateDish() throws Exception {
+        Dish dish = DishStub.getRandomDish();
+        DishRequest dishRequest = DishStub.getDishRequest();
+        DishRequest update = DishStub.updateRandomDish();
+
+        when(dishService.update(1L, dishRequest)).thenReturn(dish);
+
+        when(dishService.getById(DishStub.ID)).thenReturn(dish);
+        dish.setDish(update.getDish());
+        when(dishService.update(DishStub.ID, update)).thenReturn(dish);
+        mvc.perform(putRequest("/v1/dishes/1", update))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(containsString(update.getDish())));
+
+    }
+
+
+
+
+    private MockHttpServletRequestBuilder postRequest(String url, DishRequest request) {
+        return post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(request));
+    }
+
+    private MockHttpServletRequestBuilder putRequest(String url, DishRequest request) {
+        return put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(request));
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

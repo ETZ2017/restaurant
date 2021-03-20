@@ -31,8 +31,8 @@ public class OrderStub {
         return orderRequest;
     }
 
-    public static Order updateRandomOrder(){
-        return Order.builder().id(ID)
+    public static OrderRequest updateRandomOrder(){
+        return OrderRequest.builder()
                 .number(2)
                 .dishes(new HashSet<>())
                 .build();

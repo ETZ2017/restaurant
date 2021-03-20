@@ -38,7 +38,7 @@ public class V1OrderController implements IOrder {
     }
 
     @PutMapping("/{id}")
-    public Order update(@PathVariable Long id, @RequestBody Order order){
+    public Order update(@PathVariable Long id, @RequestBody OrderRequest order){
         return service.update(id, order);
     }
 

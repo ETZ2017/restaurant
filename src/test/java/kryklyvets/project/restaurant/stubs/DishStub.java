@@ -34,8 +34,8 @@ public class DishStub {
         return dishRequest;
     }
 
-    public static Dish updateRandomDish(){
-        return Dish.builder().id(ID)
+    public static DishRequest updateRandomDish(){
+        return DishRequest.builder()
                 .dish("Test 2")
                 .ingredients("Test 2")
                 .orders(new HashSet<>())

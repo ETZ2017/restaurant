@@ -36,22 +36,32 @@ public class ClientService {
         return  repository.save(client);
     }
 
-    public Client update(Long id, Client newClient){
+    public Client update(Long id, ClientRequest newClient){
         return repository.findById(id)
-                .map(order -> {
-                    order.setFirstName(newClient.getFirstName());
-                    order.setLastName(newClient.getLastName());
-                    order.setStreet(newClient.getStreet());
-                    order.setHouse(newClient.getHouse());
-                    order.setOrders(newClient.getOrders());
-                    order.setApt(newClient.getApt());
-                    order.setIsDelete(newClient.getIsDelete());
-                    order.setDateModified(LocalDateTime.now());
-                    return repository.save(newClient);
+                .map(client -> {
+                    client.setFirstName(newClient.getFirstName());
+                    client.setLastName(newClient.getLastName());
+                    client.setStreet(newClient.getStreet());
+                    client.setHouse(newClient.getHouse());
+                    client.setOrders(newClient.getOrders());
+                    client.setApt(newClient.getApt());
+                    client.setIsDelete(newClient.getIsDelete());
+                    client.setDateModified(LocalDateTime.now());
+                    return repository.save(client);
                 })
                 .orElseGet(() -> {
-                    newClient.setId(id);
-                    return repository.save(newClient);
+                    Client client = new Client();
+                    client.setId(id);
+                    client.setFirstName(newClient.getFirstName());
+                    client.setLastName(newClient.getLastName());
+                    client.setStreet(newClient.getStreet());
+                    client.setHouse(newClient.getHouse());
+                    client.setOrders(newClient.getOrders());
+                    client.setApt(newClient.getApt());
+                    client.setIsDelete(newClient.getIsDelete());
+                    client.setDateModified(LocalDateTime.now());
+                    client.setDateCreated(LocalDateTime.now());
+                    return repository.save(client);
                 });
     }
 

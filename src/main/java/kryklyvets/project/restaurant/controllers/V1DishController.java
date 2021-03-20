@@ -39,7 +39,7 @@ public class V1DishController implements IDish {
     }
 
     @PutMapping("/{id}")
-    public Dish update(@PathVariable Long id, @RequestBody Dish dish){
+    public Dish update(@PathVariable Long id, @RequestBody DishRequest dish){
         return service.update(id, dish);
     }
 

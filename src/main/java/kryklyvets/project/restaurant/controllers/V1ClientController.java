@@ -38,7 +38,7 @@ public class V1ClientController implements IClient {
     }
 
     @PutMapping("/{id}")
-    public Client update(@PathVariable Long id, @RequestBody Client client){
+    public Client update(@PathVariable Long id, @RequestBody ClientRequest client){
         return service.update(id, client);
     }
 

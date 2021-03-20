@@ -36,7 +36,7 @@ public class OrderService {
         return  repository.save(order);
     }
 
-    public Order update(Long id, Order newOrder){
+    public Order update(Long id, OrderRequest newOrder){
         return repository.findById(id)
                 .map(order -> {
                     order.setClient(newOrder.getClient());
@@ -45,11 +45,19 @@ public class OrderService {
                     order.setTotalPrice(newOrder.getTotalPrice());
                     order.setIsDelete(newOrder.getIsDelete());
                     order.setDateModified(LocalDateTime.now());
-                    return repository.save(newOrder);
+                    return repository.save(order);
                 })
                 .orElseGet(() -> {
-                    newOrder.setId(id);
-                    return repository.save(newOrder);
+                    Order order = new Order();
+                    order.setId(id);
+                    order.setClient(newOrder.getClient());
+                    order.setDishes(newOrder.getDishes());
+                    order.setNumber(newOrder.getNumber());
+                    order.setTotalPrice(newOrder.getTotalPrice());
+                    order.setIsDelete(newOrder.getIsDelete());
+                    order.setDateModified(LocalDateTime.now());
+                    order.setDateCreated(LocalDateTime.now());
+                    return repository.save(order);
                 });
     }
 

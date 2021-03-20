@@ -14,7 +14,7 @@ public interface IDish {
 
     Dish create(@RequestBody DishRequest dish);
 
-    Dish update(@PathVariable Long id, @RequestBody Dish dish);
+    Dish update(@PathVariable Long id, @RequestBody DishRequest dish);
 
     void delete(@PathVariable Long id);
 }

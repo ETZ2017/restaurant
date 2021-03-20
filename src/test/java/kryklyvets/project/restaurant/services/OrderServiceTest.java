@@ -1,4 +1,5 @@
 package kryklyvets.project.restaurant.services;
+import kryklyvets.project.restaurant.dtos.OrderRequest;
 import kryklyvets.project.restaurant.entities.Order;
 import kryklyvets.project.restaurant.exceptions.OrderNotFoundException;
 import kryklyvets.project.restaurant.services.interfaces.IOrderRepository;
@@ -85,7 +86,7 @@ class OrderServiceTest {
 
     @Test
     void testSuccessfulUpdate() {
-        Order order = OrderStub.updateRandomOrder();
+        OrderRequest order = OrderStub.updateRandomOrder();
 
         Mockito.when(orderRepository.save(Mockito.any())).thenReturn(OrderStub.updateRandomOrder());
 

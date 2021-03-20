@@ -34,7 +34,7 @@ public class UnitService {
                 .orElseThrow(() -> new UnitNotFoundException(id));
     }
 
-    public Unit update(Long id, Unit newUnit){
+    public Unit update(Long id, UnitRequest newUnit){
         return repository.findById(id)
                 .map(unit -> {
                     unit.setUnit(newUnit.getUnit());
@@ -45,8 +45,14 @@ public class UnitService {
                     return repository.save(unit);
                 })
                 .orElseGet(() -> {
-                    newUnit.setId(id);
-                    return repository.save(newUnit);
+                    Unit unit = new Unit();
+                    unit.setId(id);
+                    unit.setUnit(newUnit.getUnit());
+                    unit.setDishes(newUnit.getDishes());
+                    unit.setDishes(newUnit.getDishes());
+                    unit.setIsDelete(newUnit.getIsDelete());
+                    unit.setDateModified(LocalDateTime.now());
+                    return repository.save(unit);
                 });
     }
 

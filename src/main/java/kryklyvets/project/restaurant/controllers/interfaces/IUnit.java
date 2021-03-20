@@ -14,7 +14,7 @@ public interface IUnit {
 
     Unit create(@RequestBody UnitRequest unit);
 
-    Unit update(@PathVariable Long id, @RequestBody Unit unit);
+    Unit update(@PathVariable Long id, @RequestBody UnitRequest unit);
 
     void delete(@PathVariable Long id);
 }

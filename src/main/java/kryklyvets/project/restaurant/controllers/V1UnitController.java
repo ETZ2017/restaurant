@@ -38,7 +38,7 @@ public class V1UnitController implements IUnit {
     }
 
     @PutMapping("/{id}")
-    public Unit update(@PathVariable Long id, @RequestBody Unit unit){
+    public Unit update(@PathVariable Long id, @RequestBody UnitRequest unit){
         return service.update(id, unit);
     }
 

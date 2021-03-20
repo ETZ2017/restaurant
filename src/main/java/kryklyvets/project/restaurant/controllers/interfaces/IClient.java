@@ -14,7 +14,7 @@ public interface IClient {
 
     Client create(@RequestBody ClientRequest client);
 
-    Client update(@PathVariable Long id, @RequestBody Client client);
+    Client update(@PathVariable Long id, @RequestBody ClientRequest client);
 
     void delete(@PathVariable Long id);
 }

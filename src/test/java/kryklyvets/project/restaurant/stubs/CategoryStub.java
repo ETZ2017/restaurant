@@ -27,13 +27,11 @@ public final class CategoryStub {
         return categoryRequest;
     }
 
-    public static Category updateRandomCategory(){
-        return Category.builder()
+    public static CategoryRequest updateRandomCategory(){
+        return CategoryRequest.builder()
                 .category("Test 2")
                 .dishes(new HashSet<>())
                 .isDelete(false)
-                .dateCreated(LocalDateTime.now())
-                .dateModified(LocalDateTime.now())
                 .build();
     }
 }

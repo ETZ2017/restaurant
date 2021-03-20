@@ -26,8 +26,8 @@ public class UnitStub {
         return unitRequest;
     }
 
-    public static Unit updateRandomUnit(){
-        return Unit.builder().id(ID)
+    public static UnitRequest updateRandomUnit(){
+        return UnitRequest.builder()
                 .unit("Test 2 s")
                 .dishes(new HashSet<>())
                 .build();

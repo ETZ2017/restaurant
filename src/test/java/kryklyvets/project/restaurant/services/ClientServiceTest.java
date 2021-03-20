@@ -1,4 +1,5 @@
 package kryklyvets.project.restaurant.services;
+import kryklyvets.project.restaurant.dtos.ClientRequest;
 import kryklyvets.project.restaurant.entities.Client;
 import kryklyvets.project.restaurant.exceptions.ClientNotFoundException;
 import kryklyvets.project.restaurant.services.interfaces.IClientRepository;
@@ -87,7 +88,7 @@ class ClientServiceTest {
 
     @Test
     void testSuccessfulUpdate() {
-        Client client = ClientStub.updateRandomClient();
+        ClientRequest client = ClientStub.updateRandomClient();
 
         Mockito.when(clientRepository.save(Mockito.any())).thenReturn(ClientStub.updateRandomClient());
 

@@ -14,7 +14,7 @@ public interface ICategory {
 
     Category create(@RequestBody CategoryRequest category);
 
-    Category update(@PathVariable Long id, @RequestBody Category category);
+    Category update(@PathVariable Long id, @RequestBody CategoryRequest category);
 
     void delete(@PathVariable Long id);
 }

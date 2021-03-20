@@ -34,18 +34,24 @@ public class CategoryService {
         return  repository.save(category);
     }
 
-    public Category update(Long id, Category newCategory){
+    public Category update(Long id, CategoryRequest newCategory){
         return repository.findById(id)
                 .map(category -> {
                     category.setCategory(newCategory.getCategory());
                     category.setDishes(newCategory.getDishes());
                     category.setIsDelete(newCategory.getIsDelete());
                     category.setDateModified(LocalDateTime.now());
-                    return repository.save(newCategory);
+                    return repository.save(category);
                 })
                 .orElseGet(() -> {
-                    newCategory.setId(id);
-                    return repository.save(newCategory);
+                    Category category = new Category();
+                    category.setId(id);
+                    category.setCategory(newCategory.getCategory());
+                    category.setDishes(newCategory.getDishes());
+                    category.setIsDelete(newCategory.getIsDelete());
+                    category.setDateModified(LocalDateTime.now());
+                    category.setDateCreated(LocalDateTime.now());
+                    return repository.save(category);
                 });
     }
 

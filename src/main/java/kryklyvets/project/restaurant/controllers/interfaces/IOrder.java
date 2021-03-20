@@ -14,7 +14,7 @@ public interface IOrder {
 
     Order create(@RequestBody OrderRequest order);
 
-    Order update(@PathVariable Long id, @RequestBody Order order);
+    Order update(@PathVariable Long id, @RequestBody OrderRequest order);
 
     void delete(@PathVariable Long id);
 }

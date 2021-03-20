@@ -98,15 +98,10 @@ public class V1CategoryControllerTest {
     @Test
     public void updateCategory() throws Exception {
         Category category = CategoryStub.getRandomCategory();
-        Category update = CategoryStub.updateRandomCategory();
+        CategoryRequest categoryRequest = CategoryStub.getCategoryRequest();
+        CategoryRequest update = CategoryStub.updateRandomCategory();
 
-        when(categoryService.update(1L, category)).thenReturn(category);
-
-        /*mvc.perform(put("/v1/categories/1")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isNotEmpty())
-                .andExpect(content().string(containsString(category.getCategory())));*/
+        when(categoryService.update(1L, categoryRequest)).thenReturn(category);
 
         when(categoryService.getById(CategoryStub.ID)).thenReturn(category);
         category.setCategory(update.getCategory());
@@ -131,16 +126,12 @@ public class V1CategoryControllerTest {
                 .content(asJsonString(request));
     }
 
-    private MockHttpServletRequestBuilder putRequest(String url, Category request) {
+    private MockHttpServletRequestBuilder putRequest(String url, CategoryRequest request) {
         return put(url)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(asJsonString(request));
     }
-
-
-
-
 
     public static String asJsonString(final Object obj) {
         try {
@@ -149,6 +140,11 @@ public class V1CategoryControllerTest {
             throw new RuntimeException(e);
         }
     }
+
+
+
+
+
 
     private V1CategoryController controller;
 

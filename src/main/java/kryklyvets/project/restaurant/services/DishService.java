@@ -34,7 +34,7 @@ public class DishService {
         return  repository.save(dish);
     }
 
-    public Dish update(Long id, Dish newDish){
+    public Dish update(Long id, DishRequest newDish){
         return repository.findById(id)
                 .map(dish -> {
                     dish.setDish(newDish.getDish());
@@ -46,11 +46,22 @@ public class DishService {
                     dish.setUnit(newDish.getUnit());
                     dish.setIsDelete(newDish.getIsDelete());
                     dish.setDateModified(LocalDateTime.now());
-                    return repository.save(newDish);
+                    dish.setDateCreated(LocalDateTime.now());
+                    return repository.save(dish);
                 })
                 .orElseGet(() -> {
-                    newDish.setId(id);
-                    return repository.save(newDish);
+                    Dish dish = new Dish();
+                    dish.setId(id);
+                    dish.setDish(newDish.getDish());
+                    dish.setIngredients(newDish.getIngredients());
+                    dish.setCategory(newDish.getCategory());
+                    dish.setAmount(newDish.getAmount());
+                    dish.setPrice(newDish.getPrice());
+                    dish.setOrders(newDish.getOrders());
+                    dish.setUnit(newDish.getUnit());
+                    dish.setIsDelete(newDish.getIsDelete());
+                    dish.setDateModified(LocalDateTime.now());
+                    return repository.save(dish);
                 });
     }
 

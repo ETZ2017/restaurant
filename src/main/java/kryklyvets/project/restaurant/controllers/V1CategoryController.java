@@ -38,7 +38,7 @@ public class V1CategoryController implements ICategory {
     }
 
     @PutMapping("/{id}")
-    public Category update(@PathVariable Long id, @RequestBody Category category){
+    public Category update(@PathVariable Long id, @RequestBody CategoryRequest category){
         return service.update(id, category);
     }
 

@@ -1,4 +1,5 @@
 package kryklyvets.project.restaurant.services;
+import kryklyvets.project.restaurant.dtos.DishRequest;
 import kryklyvets.project.restaurant.entities.*;
 import kryklyvets.project.restaurant.exceptions.ClientNotFoundException;
 import kryklyvets.project.restaurant.exceptions.DishNotFoundException;
@@ -90,7 +91,7 @@ class DishServiceTest {
 
     @Test
     void testSuccessfulUpdate() {
-        Dish dish = DishStub.updateRandomDish();
+        DishRequest dish = DishStub.updateRandomDish();
 
         Mockito.when(dishRepository.save(Mockito.any())).thenReturn(DishStub.updateRandomDish());
 

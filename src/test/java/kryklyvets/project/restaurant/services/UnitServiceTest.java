@@ -1,4 +1,5 @@
 package kryklyvets.project.restaurant.services;
+import kryklyvets.project.restaurant.dtos.UnitRequest;
 import kryklyvets.project.restaurant.entities.Unit;
 import kryklyvets.project.restaurant.exceptions.UnitNotFoundException;
 import kryklyvets.project.restaurant.services.interfaces.IUnitRepository;
@@ -83,7 +84,7 @@ class UnitServiceTest {
 
     @Test
     void testSuccessfulUpdate() {
-        Unit unit = UnitStub.updateRandomUnit();
+        UnitRequest unit = UnitStub.updateRandomUnit();
 
         Mockito.when(unitRepository.save(Mockito.any())).thenReturn(UnitStub.updateRandomUnit());
 

@@ -30,16 +30,14 @@ public class ClientStub {
         return clientRequest;
     }
 
-    public static Client updateRandomClient(){
-        return Client.builder().id(ID)
+    public static ClientRequest updateRandomClient(){
+        return ClientRequest.builder()
                 .firstName("Test 2")
                 .lastName("Test 2")
                 .street("Test 2")
                 .house("Test 2")
                 .apt(12)
                 .isDelete(false)
-                .dateCreated(LocalDateTime.now())
-                .dateModified(LocalDateTime.now())
                 .orders(new HashSet<>())
                 .build();
     }
