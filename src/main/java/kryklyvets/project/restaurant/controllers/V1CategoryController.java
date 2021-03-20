@@ -32,7 +32,7 @@ public class V1CategoryController implements ICategory {
         return service.getById(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public Category create(@RequestBody CategoryRequest category){
         return service.create(category);
     }

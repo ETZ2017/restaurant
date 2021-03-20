@@ -1,6 +1,8 @@
 package kryklyvets.project.restaurant.controllers;
 
+import kryklyvets.project.restaurant.entities.Category;
 import kryklyvets.project.restaurant.entities.Client;
+import kryklyvets.project.restaurant.services.CategoryService;
 import kryklyvets.project.restaurant.services.ClientService;
 import kryklyvets.project.restaurant.stubs.ClientStub;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,17 +12,85 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@ExtendWith({MockitoExtension.class})
-public class ClientControllerTest {
-    private V1ClientController controller;
-    @Mock
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+public class V1ClientControllerTest {
+    @MockBean
     private ClientService clientService;
+
+    @Autowired
+    private MockMvc mvc;
+
+    @Test
+    void testGetAll() throws Exception {
+        Client client = Client.builder().firstName("name").lastName("last name").id(1L).build();
+        ArrayList<Client> list = new ArrayList<Client>();
+        Boolean add = list.add(client);
+        when(clientService.getAll()).thenReturn(list);
+
+        mvc.perform(get("/v1/clients")
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(content().string(containsString(client.getFirstName())));
+    }
+
+    @Test
+    void testGetById() throws Exception {
+        Client client = Client.builder().firstName("name").lastName("last name").id(1L).build();
+        when(clientService.getById(1L)).thenReturn(client);
+
+        mvc.perform(get("/v1/clients/1")
+                .accept(MediaType.APPLICATION_JSON)
+        )
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$").isNotEmpty())
+                .andExpect(content().string(containsString(client.getFirstName())));
+    }
+
+    @Test
+    public void deleteCategory() throws Exception {
+        mvc.perform(delete("/v1/clients/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    private V1ClientController controller;
 
     @BeforeEach
     void setup(){
