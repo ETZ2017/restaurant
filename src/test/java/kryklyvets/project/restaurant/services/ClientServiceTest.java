@@ -90,15 +90,15 @@ class ClientServiceTest {
     void testSuccessfulUpdate() {
         ClientRequest client = ClientStub.updateRandomClient();
 
-        Mockito.when(clientRepository.save(Mockito.any())).thenReturn(ClientStub.updateRandomClient());
+        Mockito.when(clientRepository.save(Mockito.any())).thenReturn(ClientStub.getUpdatedClient());
 
         Client result = service.update(ClientStub.ID, ClientStub.updateRandomClient());
 
         assertAll(
-                () -> assertEquals(result.getFirstName(), client.getFirstName()),
-                () -> assertEquals(result.getLastName(), client.getLastName()),
-                () -> assertEquals(result.getStreet(), client.getStreet()),
-                () -> assertEquals(result.getHouse(), client.getHouse())
+                () -> assertEquals(client.getFirstName(), result.getFirstName()),
+                () -> assertEquals(client.getLastName(), result.getLastName()),
+                () -> assertEquals(client.getStreet(), result.getStreet()),
+                () -> assertEquals(client.getHouse(), result.getHouse())
         );
     }
 

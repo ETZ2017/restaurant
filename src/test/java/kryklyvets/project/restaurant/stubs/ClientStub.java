@@ -41,4 +41,14 @@ public class ClientStub {
                 .orders(new HashSet<>())
                 .build();
     }
+
+    public static Client getUpdatedClient(){
+        return Client.builder().id(ID)
+                .firstName("Test 2")
+                .lastName("Test 2")
+                .street("Test 2")
+                .house("Test 2")
+                .orders(new HashSet<>())
+                .build();
+    }
 }

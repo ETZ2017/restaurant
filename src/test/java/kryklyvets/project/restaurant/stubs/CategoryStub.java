@@ -34,4 +34,12 @@ public final class CategoryStub {
                 .isDelete(false)
                 .build();
     }
+
+    public static Category getUpdatedCategory(){
+        return Category.builder().id(ID)
+                .category("Test 2")
+                .dishes(new HashSet<>())
+                .isDelete(false)
+                .build();
+    }
 }

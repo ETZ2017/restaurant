@@ -86,7 +86,7 @@ class UnitServiceTest {
     void testSuccessfulUpdate() {
         UnitRequest unit = UnitStub.updateRandomUnit();
 
-        Mockito.when(unitRepository.save(Mockito.any())).thenReturn(UnitStub.updateRandomUnit());
+        Mockito.when(unitRepository.save(Mockito.any())).thenReturn(UnitStub.getUpdatedUnit());
 
         Unit result = service.update(UnitStub.ID, UnitStub.updateRandomUnit());
 

@@ -1,9 +1,11 @@
 package kryklyvets.project.restaurant.services;
 import kryklyvets.project.restaurant.dtos.OrderRequest;
 import kryklyvets.project.restaurant.entities.Order;
+import kryklyvets.project.restaurant.entities.Unit;
 import kryklyvets.project.restaurant.exceptions.OrderNotFoundException;
 import kryklyvets.project.restaurant.services.interfaces.IOrderRepository;
 import kryklyvets.project.restaurant.stubs.OrderStub;
+import kryklyvets.project.restaurant.stubs.UnitStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -88,7 +90,7 @@ class OrderServiceTest {
     void testSuccessfulUpdate() {
         OrderRequest order = OrderStub.updateRandomOrder();
 
-        Mockito.when(orderRepository.save(Mockito.any())).thenReturn(OrderStub.updateRandomOrder());
+        Mockito.when(orderRepository.save(Mockito.any())).thenReturn(OrderStub.getUpdatedOrder());
 
         Order result = service.update(OrderStub.ID, OrderStub.updateRandomOrder());
 

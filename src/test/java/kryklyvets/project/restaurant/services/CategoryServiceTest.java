@@ -85,11 +85,11 @@ class CategoryServiceTest {
     void testSuccessfulUpdate() {
         CategoryRequest category = CategoryStub.updateRandomCategory();
 
-        Mockito.when(categoryRepository.save(Mockito.any())).thenReturn(CategoryStub.updateRandomCategory());
+        Mockito.when(categoryRepository.save(Mockito.any())).thenReturn(CategoryStub.getUpdatedCategory());
 
         Category result = service.update(CategoryStub.ID, CategoryStub.updateRandomCategory());
 
-        assertEquals(result.getCategory(), category.getCategory());
+        assertEquals(category.getCategory(), result.getCategory());
     }
 
     @Test

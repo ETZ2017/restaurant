@@ -93,13 +93,13 @@ class DishServiceTest {
     void testSuccessfulUpdate() {
         DishRequest dish = DishStub.updateRandomDish();
 
-        Mockito.when(dishRepository.save(Mockito.any())).thenReturn(DishStub.updateRandomDish());
+        Mockito.when(dishRepository.save(Mockito.any())).thenReturn(DishStub.getUpdatedDish());
 
         Dish result = service.update(DishStub.ID, DishStub.updateRandomDish());
 
         assertAll(
-                () -> assertEquals(result.getDish(), dish.getDish()),
-                () -> assertEquals(result.getIngredients(), dish.getIngredients())
+                () -> assertEquals(dish.getDish(), result.getDish()),
+                () -> assertEquals(dish.getIngredients(), result.getIngredients())
         );
     }
 

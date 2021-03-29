@@ -30,6 +30,16 @@ public class UnitStub {
         return UnitRequest.builder()
                 .unit("Test 2 s")
                 .dishes(new HashSet<>())
+                .dishes(new HashSet<>())
+                .isDelete(false)
+                .build();
+    }
+
+    public static Unit getUpdatedUnit(){
+        return Unit.builder().id(ID)
+                .unit("Test 2 s")
+                .dishes(new HashSet<>())
+                .isDelete(false)
                 .build();
     }
 }

@@ -41,4 +41,17 @@ public class DishStub {
                 .orders(new HashSet<>())
                 .build();
     }
+
+    public static Dish getUpdatedDish(){
+        return Dish.builder().id(ID)
+                .dish("Test 2")
+                .category(new HashSet<>())
+                .ingredients("Test 2")
+                .price(new BigDecimal("123.168513"))
+                .orders(new HashSet<>())
+                .amount(12)
+                .unit(new Unit())
+                .isDelete(false)
+                .build();
+    }
 }

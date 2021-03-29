@@ -37,4 +37,14 @@ public class OrderStub {
                 .dishes(new HashSet<>())
                 .build();
     }
+
+    public static Order getUpdatedOrder(){
+        return Order.builder().id(ID)
+                .number(2)
+                .dishes(new HashSet<>())
+                .client(new Client())
+                .totalPrice(new BigDecimal("12.000000235"))
+                .isDelete(false)
+                .build();
+    }
 }
