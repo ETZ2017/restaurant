@@ -1,6 +1,7 @@
 package kryklyvets.project.restaurant.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kryklyvets.project.restaurant.dtos.CategoryRequest;
 import kryklyvets.project.restaurant.dtos.ClientRequest;
 import kryklyvets.project.restaurant.dtos.OrderRequest;
 import kryklyvets.project.restaurant.entities.Category;
@@ -23,6 +24,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -51,6 +53,7 @@ public class V1ClientControllerTest {
     private MockMvc mvc;
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void testGetAll() throws Exception {
         Client client = Client.builder().firstName("name").lastName("last name").id(1L).build();
         ArrayList<Client> list = new ArrayList<Client>();
@@ -67,6 +70,7 @@ public class V1ClientControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void testGetById() throws Exception {
         Client client = Client.builder().firstName("name").lastName("last name").id(1L).build();
         when(clientService.getById(1L)).thenReturn(client);
@@ -81,10 +85,65 @@ public class V1ClientControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
+    public void createClient() throws Exception {
+        Client client = ClientStub.getRandomClient();
+        ClientRequest clientRequest = ClientStub.getClientRequest();
+
+        when(clientService.getById(ClientStub.ID)).thenReturn(ClientStub.getRandomClient());
+        when(clientService.create(clientRequest)).thenReturn(client);
+        mvc.perform(postRequest("/v1/clients/create", clientRequest))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(containsString(client.getFirstName())));
+
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
+    public void updateCategory() throws Exception {
+        Client client = ClientStub.getRandomClient();
+        ClientRequest clientRequest = ClientStub.getClientRequest();
+        ClientRequest update = ClientStub.updateRandomClient();
+
+        when(clientService.update(1L, clientRequest)).thenReturn(client);
+
+        when(clientService.getById(CategoryStub.ID)).thenReturn(client);
+        client.setFirstName(update.getFirstName());
+        when(clientService.update(CategoryStub.ID, update)).thenReturn(client);
+        mvc.perform(putRequest("/v1/clients/1", update))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().string(containsString(update.getFirstName())));
+
+    }
+
+    @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void deleteCategory() throws Exception {
         mvc.perform(delete("/v1/clients/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
+    }
+
+    private MockHttpServletRequestBuilder postRequest(String url, ClientRequest request) {
+        return post(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(request));
+    }
+
+    private MockHttpServletRequestBuilder putRequest(String url, ClientRequest request) {
+        return put(url)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(asJsonString(request));
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 
@@ -99,7 +158,7 @@ public class V1ClientControllerTest {
 
 
 
-    private V1ClientController controller;
+    /*private V1ClientController controller;
 
     @BeforeEach
     void setup(){
@@ -214,5 +273,5 @@ public class V1ClientControllerTest {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 }

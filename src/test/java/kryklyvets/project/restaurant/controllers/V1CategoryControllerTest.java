@@ -21,6 +21,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.test.context.support.WithAnonymousUser;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -53,6 +55,7 @@ public class V1CategoryControllerTest {
     private MockMvc mvc;
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void testGetAll() throws Exception {
         Category category = CategoryStub.getRandomCategory();
         ArrayList<Category> list = new ArrayList<Category>();
@@ -69,6 +72,7 @@ public class V1CategoryControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void testGetById() throws Exception {
         Category category = CategoryStub.getRandomCategory();
         when(categoryService.getById(1L)).thenReturn(category);
@@ -83,6 +87,7 @@ public class V1CategoryControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void createCategory() throws Exception {
         Category category = CategoryStub.getRandomCategory();
         CategoryRequest categoryRequest = CategoryStub.getCategoryRequest();
@@ -96,6 +101,7 @@ public class V1CategoryControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void updateCategory() throws Exception {
         Category category = CategoryStub.getRandomCategory();
         CategoryRequest categoryRequest = CategoryStub.getCategoryRequest();
@@ -113,6 +119,7 @@ public class V1CategoryControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void deleteCategory() throws Exception {
         mvc.perform(delete("/v1/categories/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -146,7 +153,7 @@ public class V1CategoryControllerTest {
 
 
 
-    private V1CategoryController controller;
+    /*private V1CategoryController controller;
 
     @BeforeEach
     void setup(){
@@ -201,6 +208,6 @@ public class V1CategoryControllerTest {
         List<Category> result = controller.getAll(1,1);
 
         assertEquals(category.getCategory(), result.get(0).getCategory());
-    }
+    }*/
 
 }

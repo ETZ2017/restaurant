@@ -8,18 +8,21 @@ import kryklyvets.project.restaurant.entities.Order;
 import kryklyvets.project.restaurant.controllers.interfaces.IOrder;
 import kryklyvets.project.restaurant.services.OrderService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/v1/orders")
 @Api(value = "Order controller")
 public class V1OrderController implements IOrder {
     private final OrderService service;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     @ApiResponse(code=200, message = "Successful get all")
     public List<Order> getAll(@RequestParam(required = false, defaultValue = "10") Integer size,
                               @RequestParam(required = false, defaultValue = "1") Integer page){

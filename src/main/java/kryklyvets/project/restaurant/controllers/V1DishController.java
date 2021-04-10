@@ -8,19 +8,22 @@ import kryklyvets.project.restaurant.entities.Dish;
 import kryklyvets.project.restaurant.controllers.interfaces.IDish;
 import kryklyvets.project.restaurant.services.DishService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/v1/dishes")
 @Api(value = "Dish controller")
 public class V1DishController implements IDish {
     private final DishService service;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     @ApiResponse(code=200, message = "Successful get all")
     public List<Dish> getAll(@RequestParam(required = false, defaultValue = "10") Integer size,
                              @RequestParam(required = false, defaultValue = "1") Integer page){

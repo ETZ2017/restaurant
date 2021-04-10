@@ -8,18 +8,21 @@ import kryklyvets.project.restaurant.entities.Unit;
 import kryklyvets.project.restaurant.controllers.interfaces.IUnit;
 import kryklyvets.project.restaurant.services.UnitService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/v1/units")
 @Api(value = "Unit controller")
 public class V1UnitController implements IUnit {
     private final UnitService service;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     @ApiResponse(code=200, message = "Successful get all")
     public List<Unit> getAll(@RequestParam(required = false, defaultValue = "10") Integer size,
                              @RequestParam(required = false, defaultValue = "1") Integer page){

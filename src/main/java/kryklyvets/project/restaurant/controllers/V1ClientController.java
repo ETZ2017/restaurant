@@ -8,18 +8,21 @@ import kryklyvets.project.restaurant.entities.Client;
 import kryklyvets.project.restaurant.controllers.interfaces.IClient;
 import kryklyvets.project.restaurant.services.ClientService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/v1/clients")
 @Api(value = "Client controller")
 public class V1ClientController implements IClient {
     private final ClientService service;
 
     @GetMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     @ApiResponse(code=200, message = "Successful get all")
     public List<Client> getAll(@RequestParam(required = false, defaultValue = "10") Integer size,
                                @RequestParam(required = false, defaultValue = "1") Integer page){

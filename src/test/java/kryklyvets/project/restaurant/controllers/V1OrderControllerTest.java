@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -42,6 +43,7 @@ class V1OrderControllerTest {
     private MockMvc mvc;
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void testGetAll() throws Exception {
         Order order = Order.builder().number(123).id(1L).build();
         ArrayList<Order> list = new ArrayList<Order>();
@@ -58,6 +60,7 @@ class V1OrderControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void testGetById() throws Exception {
         Order order = Order.builder().number(123).id(1L).build();
         when(orderService.getById(1L)).thenReturn(order);
@@ -72,6 +75,7 @@ class V1OrderControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void deleteOrder() throws Exception {
         mvc.perform(delete("/v1/orders/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -79,6 +83,7 @@ class V1OrderControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void createOrder() throws Exception {
         Order order = OrderStub.getRandomOrder();
         OrderRequest orderRequest = OrderStub.getOrderRequest();
@@ -92,6 +97,7 @@ class V1OrderControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void updateOrder() throws Exception {
         Order order = OrderStub.getRandomOrder();
         OrderRequest orderRequest = OrderStub.getOrderRequest();

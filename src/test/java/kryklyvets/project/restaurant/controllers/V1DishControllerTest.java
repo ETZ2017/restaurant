@@ -18,6 +18,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -45,6 +46,7 @@ public class V1DishControllerTest {
     private MockMvc mvc;
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void testGetAll() throws Exception {
         Dish dish = Dish.builder().dish("name").ingredients("ingredients").id(1L).build();
         ArrayList<Dish> list = new ArrayList<Dish>();
@@ -61,6 +63,7 @@ public class V1DishControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void testGetById() throws Exception {
         Dish dish = Dish.builder().dish("name").ingredients("ingredients").id(1L).build();
         when(dishService.getById(1L)).thenReturn(dish);
@@ -75,6 +78,7 @@ public class V1DishControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void deleteCategory() throws Exception {
         mvc.perform(delete("/v1/dishes/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -82,6 +86,7 @@ public class V1DishControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     void testGetDishByCatId() throws Exception {
         HashSet<Category> set = new HashSet();
         set.add(CategoryStub.getRandomCategory());
@@ -101,6 +106,7 @@ public class V1DishControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void createDish() throws Exception {
         Dish dish = DishStub.getRandomDish();
         DishRequest dishRequest = DishStub.getDishRequest();
@@ -114,6 +120,7 @@ public class V1DishControllerTest {
     }
 
     @Test
+    @WithMockUser(username = "user", password = "user", roles = "USER")
     public void updateDish() throws Exception {
         Dish dish = DishStub.getRandomDish();
         DishRequest dishRequest = DishStub.getDishRequest();

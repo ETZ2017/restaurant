@@ -8,6 +8,7 @@ import kryklyvets.project.restaurant.entities.Category;
 import kryklyvets.project.restaurant.controllers.interfaces.ICategory;
 import kryklyvets.project.restaurant.services.CategoryService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class V1CategoryController implements ICategory {
 
     @GetMapping
     @ApiResponse(code=200, message = "Successful get all")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public List<Category> getAll(@RequestParam(required = false, defaultValue = "10") Integer size,
                                  @RequestParam(required = false, defaultValue = "1") Integer page){
         return service.getAll();
