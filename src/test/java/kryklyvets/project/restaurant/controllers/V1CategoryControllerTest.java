@@ -126,6 +126,7 @@ public class V1CategoryControllerTest {
 
     }
 
+
     private MockHttpServletRequestBuilder postRequest(String url, CategoryRequest request) {
         return post(url)
                 .contentType(MediaType.APPLICATION_JSON)
