@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Currency;
 import java.util.Set;
 
 @Data
@@ -26,6 +27,8 @@ public class Dish {
     private String ingredients;
 
     private BigDecimal price;
+
+    private Currency currency;
 
     private int amount;
     @ManyToOne

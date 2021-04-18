@@ -22,7 +22,7 @@ public class V1CategoryController implements ICategory {
 
     @GetMapping
     @ApiResponse(code=200, message = "Successful get all")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public List<Category> getAll(@RequestParam(required = false, defaultValue = "10") Integer size,
                                  @RequestParam(required = false, defaultValue = "1") Integer page){
         return service.getAll();
@@ -30,21 +30,25 @@ public class V1CategoryController implements ICategory {
 
     @ApiOperation( value = "Get by id", notes = "This method get by id")
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public Category getById(@PathVariable Long id){
         return service.getById(id);
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category create(@RequestBody CategoryRequest category){
         return service.create(category);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public Category update(@PathVariable Long id, @RequestBody CategoryRequest category){
         return service.update(id, category);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public void delete(@PathVariable Long id){
         service.delete(id);
     }

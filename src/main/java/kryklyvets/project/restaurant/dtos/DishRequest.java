@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.ManyToMany;
 import java.math.BigDecimal;
+import java.util.Currency;
 import java.util.Set;
 
 @Data
@@ -22,6 +23,8 @@ public class DishRequest {
     private String ingredients;
 
     private BigDecimal price;
+
+    private Currency currency;
 
     private Set<Category> category;
 
